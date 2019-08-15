@@ -2,7 +2,7 @@ export default {
   /**
    * @description 配置显示在浏览器标签的title
    */
-  title: 'sblog',
+  title: "小萨摩's Blog",
   /**
    * @description token在Cookie中存储的天数，默认1天
    */
@@ -23,7 +23,7 @@ export default {
 
   baseUrl: {
     dev: 'http://localhost:8990/',
-    pro: 'http://localhost:8990/'
+    pro: 'http://119.29.4.230:8990/'
   },
 
   /**

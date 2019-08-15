@@ -18,7 +18,7 @@
                                         <Time :time="article.createTime" />
                                     </div>
                                     <!--                                        <p slot="title" class="title">文章1</p>-->
-                                    <p class="content" v-html="article.content">
+                                    <p class="content" v-html="article.summary +'...'">
                                         <!--                                {{article.content}}-->
                                     </p>
 
@@ -67,13 +67,43 @@
 
                 <Card>
                     <div style="text-align:center">
-                        <img src="https://file.iviewui.com/dist/2ecd3b0452aa197097d5131afacab7b8.png">
-                        <h3>小萨摩</h3>
-                        <h4>热爱coding的小后台一枚😄</h4>
+<!--                        <img src="https://yuan-sblog.oss-cn-shenzhen.aliyuncs.com/img12.jpg">-->
+                        <Avatar src="https://yuan-sblog.oss-cn-shenzhen.aliyuncs.com/img12.jpg" size="large" style="width: 150px;height: 150px" shape="circle"/>
+<!--                        <Avatar src="<%= BASE_URL %> img.jpg" size="large"  shape="circle"/>-->
+
+                        <h3 style="margin-top: 15px">小萨摩's Blog</h3>
+                        <h4 style="margin-top: 5px">热爱coding的小后台一枚😄</h4>
                         <p></p>
                     </div>
                 </Card>
 
+                <Card style="margin-top: 20px">
+<!--                    <MenuItem name="index" to="/" style="float: left">-->
+                        <Input search placeholder="搜索..." width="auto"/>
+<!--                    </MenuItem>-->
+
+                </Card>
+
+
+
+
+                <Card style="margin-top: 20px">
+                    <p slot="title">
+                        <!--                            <Icon type="ios-film-outline"></Icon>-->
+                        文章分类
+                    </p>
+
+                    <CellGroup>
+                        <Cell :title="category.name" v-for="(category,index) in categories" :key="category.id"
+                              :extra="number[index]"
+                              @click="toTagLink(1)"
+                              >
+                        </Cell>
+
+                        <!--                        <Cell title="Display label content" label="label content" />-->
+
+                    </CellGroup>
+                </Card>
 
 
                 <Card style="margin-top: 20px">
@@ -83,7 +113,10 @@
                     </p>
 
                     <CellGroup>
-                        <Cell :title="article.title" v-for="article in hotArticles" :key="article.id" :to="'/article/' + article.id" :extra="'访问量' + article.viewCount"/>
+                        <Cell :title="article.title" v-for="(article,index) in hotArticles" :key="article.id"
+                              :extra="number[index]"
+                              @click="toTagLink(article.id)"
+                               />
 <!--                        <Cell title="Display label content" label="label content" />-->
 <!--                        <Cell title="Display right content" extra="details" />-->
 <!--                        <Cell title="Link" extra="details" to="/components/button" />-->
@@ -121,6 +154,7 @@
 <script>
     import { getArticleList,getHotArticle } from '@/api/article'
     import { getTags } from '@/api/tag'
+    import { getCategories } from '@/api/category'
 
 
     export default {
@@ -133,9 +167,11 @@
                 total:0,
                 isCollapsed: false,
                 pageNum :1,
-                pageSize : 5,
+                pageSize : 8,
                 tags: [],
-                hotArticles: []
+                hotArticles: [],
+                categories: [],
+                number: [18,4,1,2,3,1,1,1,11,1]
             }
         },
 
@@ -181,7 +217,7 @@
             },
             toTagLink(name){
                 window.location.href='/tags/' + name
-            }
+            },
 
         },
         mounted() {
@@ -200,6 +236,11 @@
             getHotArticle().then(res => {
                 const { data } = res.data
                 this.hotArticles = data
+            })
+
+            getCategories().then(res => {
+                const { data } = res.data
+                this.categories = data
             })
 
 

@@ -26,6 +26,9 @@ Vue.use(Vuex)
 Vue.config.productionTip = false
 
 
+import VueWechatTitle from 'vue-wechat-title';
+Vue.use(VueWechatTitle)
+
 
 new Vue({
   render: h => h(App),

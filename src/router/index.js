@@ -6,7 +6,9 @@ import Main from '@/components/main/main'
 
 Vue.use(Router)
 
-export default new Router({
+
+
+var router = new Router({
   routes: [
     // {
     //   // 根目录
@@ -20,6 +22,10 @@ export default new Router({
       // 根目录
       path: '/',
       // redirect: '/index'
+      meta: {
+        title:'小萨摩的博客',
+      },
+      title: '111',
       name: '_home',
       component: Main,
 
@@ -30,7 +36,7 @@ export default new Router({
           path: '/',
           name: 'home',
           meta: {
-            title: 'index'
+            title: '小萨摩的博客'
             // icon: 'md-home'
           },
           component: () => import('@/components/index')
@@ -162,5 +168,13 @@ export default new Router({
   //   }
   ],
   base: '/',
-  mode: 'history' // 去掉链接的#号
+  mode: 'history', // 去掉链接的#号
 })
+
+// router.afterEach(to => {
+//   setTitle(to, router.app)
+//   // iView.LoadingBar.finish()
+//   // window.scrollTo(0, 0)
+// })
+
+export default router
