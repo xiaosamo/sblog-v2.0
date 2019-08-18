@@ -96,8 +96,8 @@
                     <CellGroup>
                         <Cell :title="category.name" v-for="(category,index) in categories" :key="category.id"
                               :extra="number[index]"
-                              @click="toTagLink(1)"
                               >
+                            <a :href="'categories/' + category.name">{{category.name}}</a>
                         </Cell>
 
                         <!--                        <Cell title="Display label content" label="label content" />-->
@@ -114,9 +114,9 @@
 
                     <CellGroup>
                         <Cell :title="article.title" v-for="(article,index) in hotArticles" :key="article.id"
-                              :extra="number[index]"
-                              @click="toTagLink(article.id)"
-                               />
+                              :extra="number[index]">
+                        <a :href="'article/' + article.id">{{article.title}}</a>
+                        </Cell>
 <!--                        <Cell title="Display label content" label="label content" />-->
 <!--                        <Cell title="Display right content" extra="details" />-->
 <!--                        <Cell title="Link" extra="details" to="/components/button" />-->
@@ -218,6 +218,7 @@
             toTagLink(name){
                 window.location.href='/tags/' + name
             },
+
 
         },
         mounted() {

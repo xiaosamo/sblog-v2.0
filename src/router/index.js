@@ -58,6 +58,15 @@ var router = new Router({
             // icon: 'md-home'
           },
           component: () => import('@/components/tagArticle')
+        },
+        {
+          path: '/categories/:name',
+          name: 'categoryArticle',
+          meta: {
+            title: '文章分类'
+            // icon: 'md-home'
+          },
+          component: () => import('@/components/tagArticle')
         }
         ]
     },

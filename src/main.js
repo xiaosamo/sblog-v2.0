@@ -29,6 +29,20 @@ Vue.config.productionTip = false
 import VueWechatTitle from 'vue-wechat-title';
 Vue.use(VueWechatTitle)
 
+/**
+ * 图片查看库
+ *
+ */
+import Viewer from 'v-viewer'
+Vue.use(Viewer, {
+  defaultOptions: {
+    zIndex: 9999,
+    title:false,
+    ready: function () {
+        // alert('ok')
+    }
+  }
+})
 
 new Vue({
   render: h => h(App),

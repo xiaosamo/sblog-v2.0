@@ -26,8 +26,28 @@
                             <!--                            </div>-->
 
                             <div class="ql-container ql-snow">
+
+
                                 <div class="ql-editor" style="padding: 5px 0;" >
-                                    <div v-html="article.content"></div>
+
+
+                                    
+                                    <!--                                    <div v-html="article.content"></div>-->
+<!--                                    <div v-html="article.content">-->
+
+<!--                                    </div>-->
+
+
+                                    <!-- 图片查看库 -->
+                                    <!-- 只需要将v-viewer指令添加到任意元素即可，该元素下的所有img元素都会被viewer自动处理。 -->
+                                        <div v-html="article.content"
+                                             v-viewer="{movable:true}"
+                                             v-viewer.static="{inline: false}"
+                                        >
+                                        </div>
+
+<!--                                    <button type="button" @click="showImg">Show</button>-->
+
                                 </div>
                             </div>
 
@@ -126,6 +146,10 @@
     import { quillEditor } from 'vue-quill-editor'
 
     import hljs from 'highlight.js'
+    import 'highlight.js/styles/monokai-sublime.css'
+
+    import 'viewerjs/dist/viewer.css'
+
 
     import { getArticleById } from '@/api/article'
     import { addComment,getArticleComment } from '@/api/comment'
@@ -154,7 +178,8 @@
                 },
                 article : {},
                 content: '',
-                value: 0
+                value: 0,
+                images: [] // 图片列表
 
             }
         },
@@ -169,7 +194,7 @@
                 console.log('editor ready!', editor)
             },
             handleSpinShow () {
-                // this.$Spin.show();
+                this.$Spin.show();
                 // setTimeout(() => {
 
                 // }, 10000);
@@ -235,7 +260,12 @@
             },
              toTagLink(name){
                 window.location.href='/tags/' + name
-            }
+            },
+            // 显示图片
+            showImg () {
+                const viewer = this.$el.querySelector('.images').$viewer
+                viewer.show()
+        }
         },
         mounted() {
 
@@ -345,6 +375,9 @@
     }
     ul li{
         list-style:none;
+    }
+    .ql-editor p{
+        /*line-height: 1.55;*/
     }
 
 
