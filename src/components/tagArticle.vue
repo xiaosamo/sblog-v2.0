@@ -16,13 +16,12 @@
                     <div style="min-height: 500px;">
 
                         <Card :bordered="true" :style="{marginBottom:'20px'}" v-for="article in articleList" :key="article.id"  >
-                            <h2><a :href="'article/' + article.id">{{article.title}}</a></h2>
+                            <h2><a :href="'/article/' + article.id">{{article.title}}</a></h2>
                             <div class="time">
                                 <Time :time="article.createTime" />
                             </div>
                             <!--                                        <p slot="title" class="title">文章1</p>-->
-                            <p class="content" v-html="article.content">
-                                <!--                                {{article.content}}-->
+                            <p class="content" v-html="article.summary +'...'">
                             </p>
 
                             <div class="content-tag" >
@@ -30,11 +29,11 @@
                                         class="tag"
                                         v-for="tag in handlerArticleTag(article.tags)"
                                         :style="getRandomColor()">
-                                    <a :href="'tags/' + tag">
-                                        {{tag}}
-                                    </a>
+
+                                    <span style="color: #fff" @click="toTagLink(tag)">{{tag}}</span>
                                 </Tag>
                             </div>
+
 
 
                         </Card>
@@ -54,20 +53,50 @@
             </Card>
 
         </Col>
+
         <Col
                 :xs="0" :sm="0" :md="6" :lg="6"
                 span="6" :style="{ background: '#fff'}">
             <Sider  breakpoint="md" collapsible :collapsed-width="400" v-model="isCollapsed"
-                    hide-trigger :style="{background: '#fff',margin: '0 auto', height: '100%',minWidth:'300px'}">
+                    hide-trigger :style="{background: '#f5f7f9',margin: '0 auto', height: '100%',minWidth:'300px'}">
 
                 <Card>
                     <div style="text-align:center">
-                        <img src="https://file.iviewui.com/dist/2ecd3b0452aa197097d5131afacab7b8.png">
-                        <h3>小萨摩</h3>
-                        <h4>热爱coding的小后台一枚😄</h4>
+                        <!--                        <img src="https://yuan-sblog.oss-cn-shenzhen.aliyuncs.com/img12.jpg">-->
+                        <Avatar src="https://yuan-sblog.oss-cn-shenzhen.aliyuncs.com/img12.jpg" size="large" style="width: 150px;height: 150px" shape="circle"/>
+                        <!--                        <Avatar src="<%= BASE_URL %> img.jpg" size="large"  shape="circle"/>-->
+
+                        <h3 style="margin-top: 15px">小萨摩's Blog</h3>
+                        <h4 style="margin-top: 5px">热爱coding的小后台一枚😄</h4>
                         <p></p>
                     </div>
                 </Card>
+
+                <Card style="margin-top: 20px">
+                    <Input search v-model="query" placeholder="搜索..." width="auto" @on-search="handleSearch"/>
+                </Card>
+
+
+
+
+                <Card style="margin-top: 20px">
+                    <p slot="title">
+                        <!--                            <Icon type="ios-film-outline"></Icon>-->
+                        文章分类
+                    </p>
+
+                    <CellGroup>
+                        <Cell :title="category.name" v-for="(category,index) in categories" :key="category.id"
+                              :extra="number[index]"
+                        >
+                            <a :href="'/categories/' + category.name">{{category.name}}</a>
+                        </Cell>
+
+                        <!--                        <Cell title="Display label content" label="label content" />-->
+
+                    </CellGroup>
+                </Card>
+
 
                 <Card style="margin-top: 20px">
                     <p slot="title">
@@ -76,16 +105,19 @@
                     </p>
 
                     <CellGroup>
-                        <Cell title="Only show titles" />
-                        <Cell title="Display label content" label="label content" />
-                        <Cell title="Display right content" extra="details" />
-                        <Cell title="Link" extra="details" to="/components/button" />
-                        <Cell title="Open link in new window" to="/components/button" target="_blank" />
-                        <Cell title="Disabled" disabled />
-                        <Cell title="Selected" selected />
-                        <Cell title="With Badge" to="/components/badge">
-                            <Badge :count="10" slot="extra" />
+                        <Cell :title="article.title" v-for="(article,index) in hotArticles" :key="article.id"
+                              :extra="number[index]">
+                            <a :href="'/article/' + article.id">{{article.title}}</a>
                         </Cell>
+                        <!--                        <Cell title="Display label content" label="label content" />-->
+                        <!--                        <Cell title="Display right content" extra="details" />-->
+                        <!--                        <Cell title="Link" extra="details" to="/components/button" />-->
+                        <!--                        <Cell title="Open link in new window" to="/components/button" target="_blank" />-->
+                        <!--                        <Cell title="Disabled" disabled />-->
+                        <!--                        <Cell title="Selected" selected />-->
+                        <!--                        <Cell title="With Badge" to="/components/badge">-->
+                        <!--                            <Badge :count="10" slot="extra" />-->
+                        <!--                        </Cell>-->
 
                     </CellGroup>
                 </Card>
@@ -98,21 +130,25 @@
                     <div>
                         <Tag class="tag" v-for="tag in tags"
                              :key="tag.id" :style="getRandomColor()">
-                            <a :href="'tags/' + tag.name">
-                                {{tag.name}}
-                            </a>
+                            <!--                            <a :href="'tags/' + tag.name">-->
+                            <!--                            <router-link :to="'/tags/' + tag.name" style="color: #fff">{{tag.name}}</router-link>-->
+                            <span style="color: #fff" @click="toTagLink(tag.name)">{{tag.name}}</span>
+                            <!--                            </a>-->
                         </Tag>
                     </div>
                 </Card>
             </Sider>
         </Col>
+
     </Row>
 
 </template>
 
 <script>
-    import { getTagArticle } from '@/api/article'
     import { getTags } from '@/api/tag'
+
+    import { getTagArticle,getArticleList,getHotArticle } from '@/api/article'
+    import { getCategories } from '@/api/category'
 
 
     export default {
@@ -126,7 +162,12 @@
                 pageNum :1,
                 pageSize : 8,
                 tags: [],
-                tagName:''
+                tagName:'',
+
+                hotArticles: [],
+                categories: [],
+                number: [18,4,1,2,3,1,1,1,11,1],
+                query:''
             }
         },
 
@@ -154,8 +195,6 @@
                 if (tags.length > 0) {
                     var tagArray = tags.split(',');
                     return tagArray
-                    // for (var i=0;i<tagArray.length;i++){
-                    // }
                 }
             },
             getRandomColor(){
@@ -168,6 +207,13 @@
                     background: color,
                     color: '#fff'
                 };
+            },
+            toTagLink(name){
+                window.location.href='/tags/' + name
+            },
+            handleSearch(){
+                window.location.href='/search?query=' + this.query
+
             }
         },
         mounted() {
@@ -180,6 +226,17 @@
                 this.tags = data
                 console.log(this.tags)
 
+            })
+
+
+            getHotArticle().then(res => {
+                const { data } = res.data
+                this.hotArticles = data
+            })
+
+            getCategories().then(res => {
+                const { data } = res.data
+                this.categories = data
             })
         },
         computed: {

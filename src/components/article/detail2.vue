@@ -121,11 +121,12 @@
 
                 <Card>
                     <h3>相关文章</h3>
-                    <p><a href="">心无杂念士大夫但是</a></p>
-                    <p><a href="">心无杂念士大夫但是</a></p>
-                    <p><a href="">心无杂念士大夫但是</a></p>
-                    <p><a href="">心无杂念士sdf</a></p>
-
+                    <div v-if="relatedArticles.length > 0">
+                        <p v-for="a in relatedArticles"><a href="">{{a.title}}</a></p>
+                    </div>
+                    <div  v-else>
+                        <p>无</p>
+                    </div>
                 </Card>
 
             </Sider>
@@ -151,7 +152,7 @@
     import 'viewerjs/dist/viewer.css'
 
 
-    import { getArticleById } from '@/api/article'
+    import { getArticleById,getCategoryArticle } from '@/api/article'
     import { addComment,getArticleComment } from '@/api/comment'
     export default {
         name: "detail2",
@@ -177,6 +178,7 @@
                     textarea: ''
                 },
                 article : {},
+                relatedArticles: {}, // 相关文章
                 content: '',
                 value: 0,
                 images: [] // 图片列表
@@ -274,11 +276,31 @@
             this.articleId = this.$route.params.id
             getArticleById(this.articleId).then(res => {
                 const { data } = res
-                console.log(data)
-                this.article = res.data.data
-                console.log(this.article)
-                this.time = this.article.createTime
-                this.comments = this.article.comments
+
+                if (data.success) {
+                    console.log(data);
+                    this.article = res.data.data;
+                    console.log(this.article);
+                    this.time = this.article.createTime;
+                    this.comments = this.article.comments;
+
+                    // 获取相关文章
+                    getCategoryArticle(this.article.category.id, 1, 10).then(res => {
+                        const {data} = res
+                        if (data.success){
+                            for (var i = 0; i < data.data.length; i++) {
+                                if (this.article.id === data.data[i].id){
+                                    data.data.splice(i,1)
+                                    break;
+                                }
+                            }
+                            this.relatedArticles = data.data
+                        }
+                    });
+                } else {
+                    this.$Message.error('加载文章失败');
+                }
+
                 // this.$Spin.hide();
             })
 

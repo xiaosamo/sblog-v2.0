@@ -60,13 +60,22 @@ var router = new Router({
           component: () => import('@/components/tagArticle')
         },
         {
+          path: '/search',
+          name: 'searchArticle',
+          meta: {
+            title: '搜索文章'
+            // icon: 'md-home'
+          },
+          component: () => import('@/components/searchArticle')
+        },
+        {
           path: '/categories/:name',
           name: 'categoryArticle',
           meta: {
             title: '文章分类'
             // icon: 'md-home'
           },
-          component: () => import('@/components/tagArticle')
+          component: () => import('@/components/categoryArticle')
         }
         ]
     },
