@@ -93,10 +93,12 @@
                     </p>
 
                     <CellGroup>
+<!--                        todo                               :extra="number[index]" -->
                         <Cell :title="category.name" v-for="(category,index) in categories" :key="category.id"
-                              :extra="number[index]"
+                              
                         >
-                            <a :href="'/categories/' + category.id">{{category.name}}</a>
+<!--                            -->
+                            <a :href="'/categories/' + category.name">{{category.name}}</a>
                         </Cell>
 
                         <!--                        <Cell title="Display label content" label="label content" />-->
@@ -112,8 +114,9 @@
                     </p>
 
                     <CellGroup>
+<!--                       todo  :extra="number[index]" -->
                         <Cell :title="article.title" v-for="(article,index) in hotArticles" :key="article.id"
-                              :extra="number[index]"
+
                            >
                         <a :href="'/article/' + article.id">{{article.title}}</a>
                         </Cell>
@@ -218,8 +221,10 @@
             },
             handleSearch(){
                 window.location.href='/search?query=' + this.query
-
-            }
+            },
+            toCategoryLink(id){
+                window.location.href='/categories/' + id
+            },
         },
         mounted() {
             this.handlerArticleList()

@@ -3,14 +3,14 @@
     <Row >
         <Col
                 :xs="24" :sm="24" :md="18" :lg="18"
-                span="18" :style="{ background: '#fff'}">
+                span="18" :style="{ background: '#f5f7f9'}">
             <Card :style="{marginRight:'15px'}">
                <Content :style="{background: '#fff', minHeight: '500px'}">
 
                    <Breadcrumb :style="{margin: '0 0 15px 0' }">
-                       <BreadcrumbItem>首页</BreadcrumbItem>
-                       <BreadcrumbItem>标签</BreadcrumbItem>
-                       <BreadcrumbItem>{{tagName}}</BreadcrumbItem>
+                       <BreadcrumbItem to="/">首页</BreadcrumbItem>
+                       <BreadcrumbItem>分类</BreadcrumbItem>
+                       <BreadcrumbItem>{{categoryName}}</BreadcrumbItem>
                    </Breadcrumb>
 
                     <div style="min-height: 500px;">
@@ -38,8 +38,6 @@
 
                         </Card>
 
-
-
                     </div>
 
 
@@ -56,7 +54,7 @@
 
         <Col
                 :xs="0" :sm="0" :md="6" :lg="6"
-                span="6" :style="{ background: '#fff'}">
+                span="6" :style="{ background: '#f5f7f9'}">
             <Sider  breakpoint="md" collapsible :collapsed-width="400" v-model="isCollapsed"
                     hide-trigger :style="{background: '#f5f7f9',margin: '0 auto', height: '100%',minWidth:'300px'}">
 
@@ -87,7 +85,6 @@
 
                     <CellGroup>
                         <Cell :title="category.name" v-for="(category,index) in categories" :key="category.id"
-                              :extra="number[index]"
                         >
                             <a :href="'/categories/' + category.name">{{category.name}}</a>
                         </Cell>
@@ -106,7 +103,7 @@
 
                     <CellGroup>
                         <Cell :title="article.title" v-for="(article,index) in hotArticles" :key="article.id"
-                              :extra="number[index]">
+                        >
                             <a :href="'/article/' + article.id">{{article.title}}</a>
                         </Cell>
                         <!--                        <Cell title="Display label content" label="label content" />-->
@@ -147,7 +144,7 @@
 <script>
     import { getTags } from '@/api/tag'
 
-    import { getCategoryArticle,getArticleList,getHotArticle } from '@/api/article'
+    import { getCategoryArticle,getHotArticle } from '@/api/article'
     import { getCategories } from '@/api/category'
 
 
@@ -163,7 +160,7 @@
                 pageSize : 8,
                 tags: [],
                 categoryId:'',
-
+                categoryName: '',
                 hotArticles: [],
                 categories: [],
                 number: [18,4,1,2,3,1,1,1,11,1],
@@ -181,6 +178,7 @@
             handlerArticleList(){
                 getCategoryArticle(this.categoryId,this.pageNum,this.pageSize).then(res => {
                     const { data } = res
+                    console.log('data')
                     console.log(data)
                     this.total = data.total
                     this.articleList = res.data.data
@@ -191,10 +189,10 @@
                 return { x: 0, y: 0 }
             },
             handlerArticleTag(tags){
-                if (tags.length > 0) {
-                    var tagArray = tags.split(',');
-                    return tagArray
-                }
+                // if (tags.length > 0) {
+                //     var tagArray = tags.split(',');
+                //     return tagArray
+                // }
             },
             getRandomColor(){
                 var randomColor = require('randomcolor'); // import the script
@@ -216,9 +214,8 @@
             }
         },
         mounted() {
-            this.categoryId = this.$route.params.id
-            alert(this.categoryId)
-            this.handlerArticleList()
+            this.categoryName = this.$route.params.name
+            // alert(this.categoryName)
             getTags().then(res => {
                 const { data } = res.data
                 console.log(data)
@@ -236,7 +233,17 @@
             getCategories().then(res => {
                 const { data } = res.data
                 this.categories = data
+                for (var i =0;i< data.length;i++) {
+                    if (data[i].name === this.categoryName) {
+                        this.categoryId = data[i].id
+                        break;
+                    }
+                }
+                // alert(this.categoryId)
+                this.handlerArticleList()
             })
+
+
         },
         computed: {
         },

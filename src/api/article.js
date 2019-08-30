@@ -45,7 +45,7 @@ export const searchArticle = (query,pageNum,pageSize) => {
 }
 export const getCategoryArticle = (id,pageNum,pageSize) => {
   return axios.request({
-    url: 'categories/' + id,
+    url: '/categories/' + id,
     params:{
       'pageNum': pageNum,
       'pageSize':pageSize

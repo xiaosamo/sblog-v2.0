@@ -4,7 +4,6 @@
             <Header :style="{position: 'fixed', width: '100%',zIndex:'999'}"
                     style="border-color: #e7e7e7;"
                     theme="light"
-                    
                     breakpoint="md" collapsible :collapsed-width="78" v-model="isCollapsed" >
             
 
@@ -148,9 +147,12 @@
                         </Submenu>
 
 
-                        <MenuItem name="4" >
-                            <Icon type="ios-paper"></Icon>
-                            关于
+                        <MenuItem name="4">
+                            <div  @click="openDrawer  = true">
+                                <Icon type="ios-paper"  ></Icon>
+                                关于
+                            </div>
+
                         </MenuItem>
 
 
@@ -168,6 +170,11 @@
         </Layout>
 
 
+        <Drawer title="关于我" :closable="false" v-model="openDrawer">
+            <p>大三，正在准备秋招ing...</p>
+<!--            <p>Some contents...</p>-->
+<!--            <p>Some contents...</p>-->
+        </Drawer>
     </div>
 
 </template>
@@ -237,7 +244,8 @@
                 switchValue: true,
                 isCollapsed: false,
                 time: (new Date()).getTime() - 60 * 3 * 1000,
-                tags: []
+                tags: [],
+                openDrawer: false // 打开关于
 
             }
         },

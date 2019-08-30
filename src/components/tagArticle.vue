@@ -3,12 +3,12 @@
     <Row >
         <Col
                 :xs="24" :sm="24" :md="18" :lg="18"
-                span="18" :style="{ background: '#fff'}">
+                span="18" :style="{ background: '#f5f7f9'}">
             <Card :style="{marginRight:'15px'}">
                <Content :style="{background: '#fff', minHeight: '500px'}">
 
                    <Breadcrumb :style="{margin: '0 0 15px 0' }">
-                       <BreadcrumbItem>首页</BreadcrumbItem>
+                       <BreadcrumbItem to="/">首页</BreadcrumbItem>
                        <BreadcrumbItem>标签</BreadcrumbItem>
                        <BreadcrumbItem>{{tagName}}</BreadcrumbItem>
                    </Breadcrumb>
@@ -56,7 +56,7 @@
 
         <Col
                 :xs="0" :sm="0" :md="6" :lg="6"
-                span="6" :style="{ background: '#fff'}">
+                span="6" :style="{ background: '#f5f7f9'}">
             <Sider  breakpoint="md" collapsible :collapsed-width="400" v-model="isCollapsed"
                     hide-trigger :style="{background: '#f5f7f9',margin: '0 auto', height: '100%',minWidth:'300px'}">
 
