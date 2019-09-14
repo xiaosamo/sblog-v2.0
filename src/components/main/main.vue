@@ -243,7 +243,7 @@
                 randomMovieList: [],
                 switchValue: true,
                 isCollapsed: false,
-                time: (new Date()).getTime() - 60 * 3 * 1000,
+                // time: (new Date()).getTime() - 60 * 3 * 1000,
                 tags: [],
                 openDrawer: false // 打开关于
 

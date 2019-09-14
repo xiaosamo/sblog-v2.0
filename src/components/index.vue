@@ -60,7 +60,7 @@
         </Col>
         <Col
                 :xs="0" :sm="0" :md="6" :lg="6"
-                span="6" :style="{ background: '#fff'}">
+                span="6" :style="{ background: '#f5f7f9'}">
             <Sider  breakpoint="md" collapsible :collapsed-width="400" v-model="isCollapsed"
                     hide-trigger :style="{background: '#f5f7f9',margin: '0 auto', height: '100%',minWidth:'300px'}">
 
@@ -72,7 +72,14 @@
 
                         <h3 style="margin-top: 15px">小萨摩's Blog</h3>
                         <h4 style="margin-top: 5px">热爱coding的小后台一枚😄</h4>
-                        <p></p>
+                        <p style="margin-top: 3px">
+                            <a href="https://github.com/xiaosamo" target="_blank" class="logo-a">
+                                <Icon type="logo-github" size="40"/>
+                            </a>
+<!--                            <a href="https://github.com/xiaosamo" target="_blank">-->
+<!--                                <Icon type="logo-github" size="40"/>-->
+<!--                            </a>-->
+                        </p>
                     </div>
                 </Card>
 
@@ -324,5 +331,6 @@
 
     .ivu-tag-text{
     }
+
 
 </style>

@@ -16,9 +16,9 @@
 
                         <Card :bordered="false" :dis-hover="true" :style="{marginBottom:'10px'}">
 <!--                            <h2><a>{{article.title}}</a></h2>-->
-                            <h2 slot="title"><a>{{article.title}}</a></h2>
+                            <h1 slot="title" style="font-size: 24px;"><a>{{article.title}}</a></h1>
                             <div class="time">
-                                <Time :time="time" type="datetime"/>
+                                <Time  v-if="isTimeOk" :time="article.createTime" type="datetime"/>
                             </div>
                             <!--
                                                           <p slot="title" class="title">文章1</p>-->
@@ -122,7 +122,7 @@
                 <Card>
                     <h3>相关文章</h3>
                     <div v-if="relatedArticles.length > 0">
-                        <p v-for="a in relatedArticles"><a href="">{{a.title}}</a></p>
+                        <p v-for="a in relatedArticles"><a :href="'/article/' + a.id">{{a.title}}</a></p>
                     </div>
                     <div  v-else>
                         <p>无</p>
@@ -131,7 +131,6 @@
 
             </Sider>
         </Col>
-
 
     </Row>
 
@@ -161,7 +160,7 @@
         },
         data () {
             return {
-                time: (new Date()).getTime() - 60 * 3 * 1000,
+                time: '',
                 commentRequest: {},
                 comments: [], // 评论
                 isCollapsed: false,
@@ -173,7 +172,7 @@
                     checkbox: [],
                     switch: true,
                     date: '',
-                    time: '',
+                    // time: '',
                     slider: [20, 50],
                     textarea: ''
                 },
@@ -181,6 +180,7 @@
                 relatedArticles: {}, // 相关文章
                 content: '',
                 value: 0,
+                isTimeOk: false,
                 images: [] // 图片列表
 
             }
@@ -281,9 +281,8 @@
                     console.log(data);
                     this.article = res.data.data;
                     console.log(this.article);
-                    this.time = this.article.createTime;
                     this.comments = this.article.comments;
-
+                    this.isTimeOk = true
                     // 获取相关文章
                     getCategoryArticle(this.article.category.id, 1, 10).then(res => {
                         const {data} = res

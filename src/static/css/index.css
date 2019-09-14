@@ -20,3 +20,11 @@ p{
     /*margin-inline-start: 0;*/
     /*margin-inline-end: 0;*/
 }
+
+/*
+github logo
+*/
+.logo-a{
+    text-decoration:none;
+    color:#333;
+}
