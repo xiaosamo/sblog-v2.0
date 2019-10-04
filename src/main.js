@@ -40,7 +40,7 @@ Vue.use(Viewer, {
     title:false,
     ready: function () {
         // alert('ok')
-    }
+    },
   }
 })
 
