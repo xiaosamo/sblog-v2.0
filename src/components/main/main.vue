@@ -5,7 +5,7 @@
                     style="border-color: #e7e7e7;"
                     theme="light"
                     breakpoint="md" collapsible :collapsed-width="78" v-model="isCollapsed" >
-            
+
 
 <!--            <Menu theme="dark" mode="horizontal" active-name="1-2" :open-names="['1']">-->
 <!--                <div class="layout-logo">logo</div>-->
@@ -67,8 +67,8 @@
 <!--                        关于我-->
 <!--                    </MenuItem>-->
 
-          
-              
+
+
 
 
 <!--            </Menu>-->
@@ -100,7 +100,7 @@
 
 
 
-                        
+
                         <MenuItem name="index" to="/" >
                             <Icon type="ios-navigate"></Icon>
                             首页
@@ -166,7 +166,9 @@
 
             </Layout>
 
-            <Footer class="layout-footer-center" :style="{background:'#fff'}">2019 &copy; Yuan Shijia</Footer>
+            <Footer class="layout-footer-center" :style="{background:'#fff'}">2019 &copy; Yuan Shijia
+                <a style="display: block" href="http://www.beian.miit.gov.cn">湘ICP备19004532号-1</a>
+            </Footer>
         </Layout>
 
 
@@ -333,7 +335,7 @@
 
     .search{
         /*width: 500px;*/
-   
+
         float: left;
 
         /*left: 50%;*/
@@ -364,6 +366,6 @@
     }
 
 
-    
-    
+
+
 </style>
